@@ -1,0 +1,188 @@
+<style>
+	*{transition: 0.2s;margin: 0;padding: 0;}
+
+	body{
+		background-color: #222;
+		text-align: center;
+	}
+	#bloco{
+		width: 100%;
+		height: 100%;
+	}
+	
+	.memory-card{
+		width: 100px;
+		height: 100px;
+		display: inline-block;
+		margin: 5;
+		background-color: lime;
+		position: relative;
+		perspective: 0px;
+		background-image: url("img/logo.png");
+		background-size: 100px;
+		/*overflow: hidden;*/
+		transform-style: preserve-3d;
+
+		display: inline-flex;
+		justify-content: center;
+		align-items:center;
+	}
+
+	.dentro{
+		width: 100;
+		height: 100;
+		/*overflow: hidden;*/
+
+		position: absolute;
+		top: 0;
+		left: 0;
+		display: block;
+		transform: translateZ(1px);
+
+	}
+
+	.dentro img{width: 100%;}
+
+	.flip{
+		transform: rotateY(180deg);
+		/*transform: translateX(100px);*/
+		/*opacity: 0;*/
+	}
+
+</style>
+
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=0.7">
+
+<div id="bloco"></div>
+
+<script>
+
+
+	obj = "aatrox,ahri,akali,alistar,amumu,anivia,annie,ashe,aurelion-sol,azir,bard,blitzcrank,brand,braum,caitlyn,camille,cassiopeia,chogath,corki,darius,diana,dr-mundo,draven,ekko,elise,evelynn,ezreal,fiddlesticks,fiora,fizz,galio,gangplank,garen,gnar,gragas,graves,hecarim,heimerdinger,illaoi,irelia,ivern,janna,jarvan-iv,jax,jayce,jhin,jinx,kaisa,kalista,karma,karthus,kassadin,katarina,kayle,kayn,kennen,khazix,kindred,kled,kogmaw,leblanc,lee-sin,leona,lissandra,lucian,lulu,lux,malphite,malzahar,maokai,master-yi,miss-fortune,mordekaiser,morgana,nami,nasus,nautilus,neeko,nidalee,nocturne,nunu-amp-willump,olaf,orianna,ornn,pantheon,poppy,pyke,quinn,rakan,rammus,reksai,renekton,rengar,riven,rumble,ryze,sejuani,shaco,shen,shyvana,singed,sion,sivir,skarner,sona,soraka,swain,syndra,tahm-kench,taliyah,talon,taric,teemo,thresh,tristana,trundle,tryndamere,twisted-fate,twitch,udyr,urgot,varus,vayne,veigar,velkoz,vi,viktor,vladimir,volibear,warwick,wukong,xayah,xerath,xin-zhao,yasuo,yorick,zac,zed,ziggs,zilean,zoe,zyra".split(",")
+	
+
+	ob2 = obj
+
+	ob2 = embaralhar(ob2)
+
+	obj3 = []
+
+	// quantidade = 20
+	quantidade = parseInt(prompt("Digite um valor de 0 a"+obj.length))
+
+	// quantidade = parseInt(prompt("Digite um número de 0 a "+obj.length))
+
+	for(i=0 ; i < quantidade ; i++){
+
+		rand = Math.floor(Math.random()*ob2.length)
+
+		rep = ob2.pop()
+
+		obj3.push(rep)
+		obj3.push(rep)
+		
+	}
+
+	obj3 = embaralhar(obj3)
+
+	for(i = 0 ; i < obj3.length ; i++){
+		bloco.innerHTML += "<div class='memory-card'><div class='dentro'><img draggable=false n="+obj3[i]+" src='img/"+obj3[i]+".png'><div></div>"
+
+		// bloco.innerHTML += "<div class='memory-card'></div>"
+	}
+
+	function virarTudo(){
+		for(i=0;i<bloco.childElementCount;i++){
+			bloco.children[i].classList.toggle("flip")
+		}
+	}
+
+	
+
+	window.onload=function(){
+
+		m = document.querySelectorAll(".memory-card")
+		for(i=0;i<m.length;i++){
+			m[i].onclick=function(e){
+				if(verif == 0)
+					this.classList.toggle("flip")
+			}
+		}
+
+		virar1 = setTimeout(virarTudo,2000)
+		
+		k = []
+
+		v = 0
+
+		verif = 0
+
+
+		for(i=0;i<bloco.childElementCount;i++){
+			bloco.children[i].onclick=function(e){
+				tocarsom()
+				v++
+				if( v%2 != 0 ){
+					this.classList.toggle("flip")
+					novo = this
+				}else{
+					this.classList.toggle("flip")
+					velho = this
+					iguais(novo,velho)
+
+				}
+			}
+		}
+
+
+	}
+
+	function iguais(v1,v2){
+		n1 = v1.querySelector("img").getAttribute("n")
+		n2 = v2.querySelector("img").getAttribute("n")
+
+		if(n1 != n2){
+			s = setTimeout(function(){
+				v1.classList.toggle("flip")
+				v2.classList.toggle("flip")
+				// alert('ok')
+			},500)
+			
+		}
+
+
+		
+	}
+
+	function removeArray(lista,pos){
+		a = lista
+		b = []
+		b = b.concat(a.slice(0,pos),a.slice(pos+1,a.length))
+		return b
+	}
+
+	function embaralhar(lis){
+
+		k = lis.length
+
+		obj2 = []
+
+		for(i in lis){
+			rand = Math.floor(Math.random()*lis.length)
+			obj2.push(lis[rand])
+			lis = removeArray(lis,rand)
+		}
+
+		return obj2
+
+	}
+
+	nsom = 0
+	function tocarsom(){
+		var audio = new Audio("sounds/"+nsom%3+".mp3");
+		audio.play();
+		nsom++
+	}
+
+</script>
