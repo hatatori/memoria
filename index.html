@@ -123,6 +123,9 @@
 
 		for(i=0;i<bloco.childElementCount;i++){
 			bloco.children[i].onclick=function(e){
+			
+			if(!this.getAttribute("virada")){
+				tentativas++
 				tocarsom()
 				v++
 				if( v%2 != 0 ){
@@ -131,18 +134,25 @@
 				}else{
 					this.classList.toggle("flip")
 					velho = this
-					iguais(novo,velho)
-
+					iguais(novo,velho)			
 				}
 			}
 		}
 	}
+}
 
 	function iguais(v1,v2){
+		
 		n1 = v1.querySelector("img").getAttribute("n")
 		n2 = v2.querySelector("img").getAttribute("n")
 
-		tentativas++
+		console.log(n1)
+		console.log(n2)
+
+		if(n1 == n2){
+			v1.setAttribute("virada","1")
+			v2.setAttribute("virada","1")
+		}
 
 		if(n1 == n2)
 			quantidade_cartas_viradas++
@@ -153,7 +163,7 @@
 			alert(`Parabéns, você tentou ${tentativas} vezes`)
 		}
 			
-
+		// se virar errado, revira
 		if(n1 != n2){
 			s = setTimeout(function(){
 				v1.classList.toggle("flip")
