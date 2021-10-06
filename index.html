@@ -67,6 +67,8 @@
 	ob2 = embaralhar(ob2)
 
 	obj3 = []
+	quantidade_cartas_viradas = 0
+	tentativas = 0
 
 	// quantidade = 20
 	quantidade = parseInt(prompt("Digite um valor de 0 a"+obj.length))
@@ -134,13 +136,23 @@
 				}
 			}
 		}
-
-
 	}
 
 	function iguais(v1,v2){
 		n1 = v1.querySelector("img").getAttribute("n")
 		n2 = v2.querySelector("img").getAttribute("n")
+
+		tentativas++
+
+		if(n1 == n2)
+			quantidade_cartas_viradas++
+		
+		if(quantidade_cartas_viradas == quantidade){
+			congratulation_sound = new Audio('sounds/congratulation.mp3')
+			congratulation_sound.play()
+			alert(`Parabéns, você tentou ${tentativas} vezes`)
+		}
+			
 
 		if(n1 != n2){
 			s = setTimeout(function(){
@@ -148,11 +160,7 @@
 				v2.classList.toggle("flip")
 				// alert('ok')
 			},500)
-			
-		}
-
-
-		
+		}	
 	}
 
 	function removeArray(lista,pos){
